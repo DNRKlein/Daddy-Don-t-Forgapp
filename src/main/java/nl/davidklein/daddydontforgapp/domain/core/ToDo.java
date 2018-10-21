@@ -2,18 +2,37 @@ package nl.davidklein.daddydontforgapp.domain.core;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Base class
+ */
 public abstract class ToDo {
+    private Long id;
     private User sender;
     private User receiver;
     private String title;
 
-    public ToDo(User sender, User receiver, String title) {
+    /**
+     * Constructor
+     * @param sender
+     *      The {@link User} which send the ToDo.
+     * @param receiver
+     *      The {@link User} which is to receive the ToDo.
+     * @param title
+     *      The title of the ToDo.
+     */
+    public ToDo(final Long id, final User sender, final User receiver, final String title) {
+        requireNonNull(id);
         requireNonNull(sender);
         requireNonNull(title);
 
+        this.id = id;
         this.sender = sender;
         this.receiver = receiver;
         this.title = title;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public User getSender() {
