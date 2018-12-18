@@ -4,10 +4,12 @@ import nl.davidklein.daddydontforgapp.domain.core.TimedToDo;
 import nl.davidklein.daddydontforgapp.repository.TimedToDoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
-import java.util.Set;
 
 /**
  * Provides the backend with a rest interface that services {@link TimedToDo}.
@@ -27,7 +29,7 @@ public class TimedToDoService {
         this.timedToDoRepository = timedToDoRepository;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<TimedToDo> getTimedToDo(@PathVariable("id") final Long id){
         final TimedToDo timedToDo = timedToDoRepository.get(id);
 
@@ -37,12 +39,4 @@ public class TimedToDoService {
             return new ResponseEntity<>(timedToDo, HttpStatus.OK);
         }
     }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Set<TimedToDo>> getTimedToDosBySender(@RequestParam(value = "user") final Long userId){
-        final Set<TimedToDo> timedToDos = timedToDoRepository.findBySender(userId);
-
-        return new ResponseEntity<>(timedToDos, HttpStatus.OK);
-    }
-
 }

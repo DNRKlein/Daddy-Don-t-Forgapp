@@ -13,6 +13,8 @@ public abstract class ToDo {
 
     /**
      * Constructor
+     * @param id
+     *      The id of the ToDo
      * @param sender
      *      The {@link User} which send the ToDo.
      * @param receiver
@@ -21,8 +23,8 @@ public abstract class ToDo {
      *      The title of the ToDo.
      */
     public ToDo(final Long id, final User sender, final User receiver, final String title) {
-        requireNonNull(id);
         requireNonNull(sender);
+        requireNonNull(receiver);
         requireNonNull(title);
 
         this.id = id;

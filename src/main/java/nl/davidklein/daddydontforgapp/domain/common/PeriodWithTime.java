@@ -15,6 +15,7 @@ public class PeriodWithTime {
     /**
      * Constructor that only takes a startDate. EndDate will be {@code null}, meaning the period is an open period.
      * @param startDate
+     *      The datetime that this period starts
      */
     public PeriodWithTime(final LocalDateTime startDate) {
         this(startDate, null);
@@ -38,7 +39,22 @@ public class PeriodWithTime {
         this.endDate = endDate;
     }
 
+    /**
+     * Checks whether a specific date is within the range of this period.
+     * @param dateTime
+     *          The date to check
+     * @return
+     *      {@code true} if the date is within the range, {@code false} otherwise.
+     */
     public boolean includes(final LocalDateTime dateTime){
         return dateTime.isAfter(startDate) && dateTime.isBefore(endDate);
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
 }

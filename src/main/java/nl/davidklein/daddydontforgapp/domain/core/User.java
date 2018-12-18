@@ -10,13 +10,10 @@ public class User {
 
     /**
      * Constructor
-     * @param id
-     *      The id of the user
      * @param name
      *      The name of the user
      */
-    public User(final Long id, final String name) {
-        this.id = id;
+    public User(final String name) {
         this.name = name;
     }
 
