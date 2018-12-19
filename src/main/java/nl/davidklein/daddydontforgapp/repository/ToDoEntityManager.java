@@ -5,11 +5,13 @@ import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 /**
  * Application specific {@link EntityManager} to keep database/session/transaction in one place
  */
 @Component
+@Transactional
 public class ToDoEntityManager {
 
     @PersistenceContext
@@ -26,21 +28,12 @@ public class ToDoEntityManager {
     }
 
     /**
-     * Persists an entity to the database
-     * @param entity
-     *          The entity that needs to be persisted
-     */
-    public void persist(final Object entity){
-        entityManager.persist(entity);
-    }
-
-    /**
      * Merges an entity and persists that merge to the database
      * @param entity
      *          The entity that is to be merged
      */
-    public void merge(final Object entity){
-        entityManager.merge(entity);
+    public <T> T merge(final T entity){
+        return entityManager.merge(entity);
     }
 
     /**

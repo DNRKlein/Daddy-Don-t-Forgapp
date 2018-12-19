@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "timed_to_do")
-public class TimedToDoJpa {
+public class TimedToDoJpa extends JpaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

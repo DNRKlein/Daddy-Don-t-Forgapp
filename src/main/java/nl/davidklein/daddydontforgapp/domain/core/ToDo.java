@@ -12,6 +12,13 @@ public abstract class ToDo {
     private String title;
 
     /**
+     * For deserialization purposes. FIXME this needs to be fixed, because it is ugly and makes it possible
+     * to create empty DomainEntities
+     */
+    public ToDo() {
+    }
+
+    /**
      * Constructor
      * @param id
      *      The id of the ToDo

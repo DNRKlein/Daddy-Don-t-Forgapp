@@ -9,6 +9,13 @@ public class User {
     private String name;
 
     /**
+     * For deserialization purposes. FIXME this needs to be fixed, because it is ugly and makes it possible
+     * to create empty DomainEntities
+     */
+    public User() {
+    }
+
+    /**
      * Constructor
      * @param name
      *      The name of the user

@@ -4,10 +4,7 @@ import nl.davidklein.daddydontforgapp.domain.core.TimedToDo;
 import nl.davidklein.daddydontforgapp.repository.TimedToDoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 
@@ -38,5 +35,12 @@ public class TimedToDoService {
         } else {
             return new ResponseEntity<>(timedToDo, HttpStatus.OK);
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<TimedToDo> addTimedToDo(@RequestBody final TimedToDo timedToDo){
+        final TimedToDo addedTimedToDo = timedToDoRepository.add(timedToDo);
+
+        return new ResponseEntity<>(addedTimedToDo, HttpStatus.OK);
     }
 }

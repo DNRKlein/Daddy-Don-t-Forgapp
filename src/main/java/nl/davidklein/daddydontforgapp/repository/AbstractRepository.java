@@ -1,5 +1,6 @@
 package nl.davidklein.daddydontforgapp.repository;
 
+import nl.davidklein.daddydontforgapp.repository.jpa.JpaEntity;
 import nl.davidklein.daddydontforgapp.repository.mapping.RepositoryMapper;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ import static java.util.Objects.requireNonNull;
  * Abstract repository which presents a couple of standard functionalities for reading and writing Domain objects
  */
 @Repository
-public abstract class AbstractRepository<ENTITY, JPA> {
+public abstract class AbstractRepository<ENTITY, JPA extends JpaEntity> {
 
     @Inject
     private ToDoEntityManager entityManager;
@@ -49,9 +50,24 @@ public abstract class AbstractRepository<ENTITY, JPA> {
      *      The entity
      */
     public ENTITY get(final Long identity) {
-        requireNonNull(identity);
+        requireNonNull(identity, "Cannot search for an entity with null id");
 
         final JPA jpaEntity = doGetJpa(identity);
         return getRepositoryMapper().mapToDomain(jpaEntity);
+    }
+
+    /**
+     * Adds an entity to the repository
+     * @param entityToAdd
+     *      The ENTITY to add
+     * @return
+     *      Returns the entity after it's been added to the repository. This means that the identity property of the entity
+     *      should be set.
+     */
+    public ENTITY add(final ENTITY entityToAdd){
+        requireNonNull(entityToAdd, "You may not add a null entity");
+
+        final JPA jpaEntity = getRepositoryMapper().mapToJpa(entityToAdd);
+        return getRepositoryMapper().mapToDomain(getEntityManager().merge(jpaEntity));
     }
 }

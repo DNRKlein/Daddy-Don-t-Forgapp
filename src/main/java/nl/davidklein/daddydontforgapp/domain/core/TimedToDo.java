@@ -12,6 +12,13 @@ public class TimedToDo extends ToDo {
     private String text;
 
     /**
+     * For deserialization purposes. FIXME this needs to be fixed, because it is ugly and makes it possible
+     * to create empty DomainEntities
+     */
+    public TimedToDo() {
+    }
+
+    /**
      * Constructor
      * @param sender
      *      The {@link User} which send the ToDo.
