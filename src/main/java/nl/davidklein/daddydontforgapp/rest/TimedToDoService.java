@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Provides the backend with a rest interface that services {@link TimedToDo}.
@@ -42,5 +43,16 @@ public class TimedToDoService {
         final TimedToDo addedTimedToDo = timedToDoRepository.add(timedToDo);
 
         return new ResponseEntity<>(addedTimedToDo, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TimedToDo>> getTimedToDosBySender(@RequestParam(value = "sender") final Long senderId){
+        final List<TimedToDo> timedToDos = timedToDoRepository.getTimedToDosBySender(senderId);
+
+        if(timedToDos == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(timedToDos, HttpStatus.OK);
+        }
     }
 }
