@@ -5,6 +5,9 @@ import nl.davidklein.daddydontforgapp.repository.mapping.RepositoryMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
@@ -69,5 +72,25 @@ public abstract class AbstractRepository<ENTITY, JPA extends JpaEntity> {
 
         final JPA jpaEntity = getRepositoryMapper().mapToJpa(entityToAdd);
         return getRepositoryMapper().mapToDomain(getEntityManager().merge(jpaEntity));
+    }
+
+    protected List<ENTITY> doMapFoundEntities(final Collection<? extends JPA> jpaCollection){
+        requireNonNull(jpaCollection);
+
+        final List<ENTITY> domainEntities = new ArrayList<>();
+        //TODO rewrite naar java8 streaming
+        for(final JPA jpaEntity : jpaCollection) {
+            domainEntities.add(doMapFoundEntity(jpaEntity));
+        }
+
+        return domainEntities;
+    }
+
+    protected ENTITY doMapFoundEntity(final JPA jpaEntity){
+        requireNonNull(jpaEntity);
+
+        final RepositoryMapper<ENTITY, JPA> repositoryMapper = getRepositoryMapper();
+
+        return repositoryMapper.mapToDomain(jpaEntity);
     }
 }

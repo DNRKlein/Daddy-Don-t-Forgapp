@@ -4,13 +4,23 @@ import nl.davidklein.daddydontforgapp.domain.common.PeriodWithTime;
 import nl.davidklein.daddydontforgapp.domain.core.TimedToDo;
 import nl.davidklein.daddydontforgapp.domain.core.User;
 import nl.davidklein.daddydontforgapp.repository.jpa.TimedToDoJpa;
+import nl.davidklein.daddydontforgapp.repository.jpa.UserJpa;
 import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
 
 /**
  * Repository mapper to map {@link TimedToDo} to {@link TimedToDoJpa} and otherway around
  */
 @Component
 public class TimedToDoRepositoryMapper implements RepositoryMapper<TimedToDo, TimedToDoJpa> {
+    private UserRepositoryMapper userRepositoryMapper;
+
+    @Inject
+    public TimedToDoRepositoryMapper(final UserRepositoryMapper userRepositoryMapper) {
+        this.userRepositoryMapper = userRepositoryMapper;
+    }
+
 
     /**
      * Maps a {@link TimedToDoJpa} to a {@link TimedToDo}
@@ -25,7 +35,11 @@ public class TimedToDoRepositoryMapper implements RepositoryMapper<TimedToDo, Ti
             return null;
         }
 
-        return new TimedToDo(source.getId(), new User( "David"), new User( "Debbie"), source.getTitle(),
+        final User sender = userRepositoryMapper.mapToDomain(source.getSender());
+        final User receiver = userRepositoryMapper.mapToDomain(source.getReceiver());
+
+
+        return new TimedToDo(source.getId(), sender, receiver, source.getTitle(),
                 new PeriodWithTime(source.getStartDate(), source.getEndDate()), source.getText());
     }
 
@@ -42,6 +56,10 @@ public class TimedToDoRepositoryMapper implements RepositoryMapper<TimedToDo, Ti
             return null;
         }
 
-        return new TimedToDoJpa(source.getId(), source.getTitle(), source.getText(), source.getPeriod().getStartDate(), source.getPeriod().getEndDate());
+        final UserJpa sender = userRepositoryMapper.mapToJpa(source.getSender());
+        final UserJpa receiver = userRepositoryMapper.mapToJpa(source.getReceiver());
+
+        return new TimedToDoJpa(source.getId(), source.getTitle(), source.getText(), source.getPeriod().getStartDate(), source.getPeriod().getEndDate(),
+                sender, receiver);
     }
 }
