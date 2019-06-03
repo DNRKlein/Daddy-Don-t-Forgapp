@@ -16,13 +16,14 @@ public class TimedToDoTest {
 
     private TimedToDo classUnderTest;
 
+    private User sender = new User("Sender", "email");
+    private User receiver = new User("Receiver", "email");
+
     @Test
     public void timedToDoSuccessfulConstruction(){
         // Arrange
         final LocalDateTime startDate = LocalDateTime.of(2018, 1, 1, 18, 30, 1);
         final PeriodWithTime period = new PeriodWithTime(startDate, startDate.plusDays(1));
-        final User sender = new User("Sender");
-        final User receiver = new User("Receiver");
 
         // Act
         classUnderTest = new TimedToDo(sender, receiver, "ToDo title", period, "ToDo text");
@@ -40,11 +41,9 @@ public class TimedToDoTest {
         // Arrange
         final LocalDateTime startDate = LocalDateTime.of(2018, 1, 1, 18, 30, 1);
         final PeriodWithTime period = new PeriodWithTime(startDate, startDate.plusDays(1));
-        final User sender = new User("Sender");
-        final User receiver = new User("Receiver");
 
         // Act
-        classUnderTest = new TimedToDo(new Long(1), sender, receiver, "ToDo title", period, "ToDo text");
+        classUnderTest = new TimedToDo(1L, sender, receiver, "ToDo title", period, "ToDo text");
 
         // Assert
         assertEquals(new Long(1), classUnderTest.getId());
@@ -60,9 +59,6 @@ public class TimedToDoTest {
         // Arrange
         expectedException.expect(NullPointerException.class);
 
-        final User sender = new User("Sender");
-        final User receiver = new User("Receiver");
-
         // Act
         classUnderTest = new TimedToDo(sender, receiver, "ToDo title", null, "ToDo text");
 
@@ -76,7 +72,6 @@ public class TimedToDoTest {
 
         final LocalDateTime startDate = LocalDateTime.of(2018, 1, 1, 18, 30, 1);
         final PeriodWithTime period = new PeriodWithTime(startDate, startDate.plusDays(1));
-        final User receiver = new User("Receiver");
 
         // Act
         classUnderTest = new TimedToDo(null, receiver, "ToDo title", period, "ToDo text");
@@ -91,7 +86,6 @@ public class TimedToDoTest {
 
         final LocalDateTime startDate = LocalDateTime.of(2018, 1, 1, 18, 30, 1);
         final PeriodWithTime period = new PeriodWithTime(startDate, startDate.plusDays(1));
-        final User sender = new User("Sender");
 
         // Act
         classUnderTest = new TimedToDo(sender, null, "ToDo title", period, "ToDo text");
@@ -106,8 +100,6 @@ public class TimedToDoTest {
 
         final LocalDateTime startDate = LocalDateTime.of(2018, 1, 1, 18, 30, 1);
         final PeriodWithTime period = new PeriodWithTime(startDate, startDate.plusDays(1));
-        final User sender = new User("Sender");
-        final User receiver = new User("Receiver");
 
         // Act
         classUnderTest = new TimedToDo(sender, receiver, null, period, "ToDo text");

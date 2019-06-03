@@ -13,13 +13,9 @@ public class UserRepositoryMapper implements RepositoryMapper<User, UserJpa> {
             return null;
         }
 
-        return new User(source.getId(), source.getName());
+        return new User(source.getId(), source.getName(), "user@email.com");
     }
 
-    /**
-     * @param source
-     * @return
-     */
     @Override
     public UserJpa mapToJpa(final User source) {
         if(source == null){

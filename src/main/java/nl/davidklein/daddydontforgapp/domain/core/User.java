@@ -9,6 +9,7 @@ public class User {
 
     private Long id;
     private String name;
+    private String email;
 
     /**
      * For deserialization purposes. FIXME this needs to be fixed, because it is ugly and makes it possible
@@ -21,23 +22,24 @@ public class User {
      * Constuctor
      * @param name
      *      The name of the user
+     * @param email
      */
-    public User(final String name) {
-        this(null, name);
+    public User(final String name, final String email) {
+        this(null, name, email);
     }
 
     /**
      * Constructor
-     * @param name
-     *      The name of the user
      * @param id
      *      The id of the user
+     * @param name
+     *      The name of the user
+     * @param email
      */
-    public User(final Long id, final String name) {
-        requireNonNull(name);
-
+    public User(final Long id, final String name, final String email) {
         this.id = id;
-        this.name = name;
+        this.name = requireNonNull(name);
+        this.email = requireNonNull(email);
     }
 
     public String getName() {
@@ -46,5 +48,9 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
